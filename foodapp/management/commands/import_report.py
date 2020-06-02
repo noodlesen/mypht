@@ -4,19 +4,18 @@
 import datetime
 import os
 from django.core.management.base import BaseCommand
-from foodapp.models import Person, Report, Meal, Intake, Product
+from foodapp.models import Person, Meal, Intake, Product
 
 
 class Command(BaseCommand):
     """A Django command."""
 
-
     def handle(self, *args, **options):
         """A Django command body."""
 
-        #Product.objects.all().delete()
-        #Meal.objects.all().delete()
-        #Intake.objects.all().delete()
+        # Product.objects.all().delete()
+        # Meal.objects.all().delete()
+        # Intake.objects.all().delete()
 
         def parse_line(s):
             qblocks = []
@@ -32,9 +31,9 @@ class Command(BaseCommand):
                         qblocks.append(block)
                         block = ''
                 else:
-                    block+=ch
+                    block += ch
 
-            res=[]
+            res = []
             res.append(qblocks[0].strip())
             for b in qblocks[1:]:
                 if b == '':
@@ -47,19 +46,20 @@ class Command(BaseCommand):
             tokens = s.strip().split(' ')
             num = float(tokens[0])
             if '1/2' in s:
-                num+=0.5
-            if tokens[-1]=='г' or tokens[-1]=='мл':
+                num += 0.5
+            if tokens[-1] == 'г' or tokens[-1] == 'мл':
                 return(num)
-            elif tokens[-1]=='хлебец':
+            elif tokens[-1] == 'хлебец':
                 return(6)
-
 
         person_name = 'klapshov'
         person = Person.objects.get(name=person_name)
         print(person)
         folder = os.path.join('incoming', 'fs', person_name)
-        fnames = [os.path.join(folder, fn) for fn in os.listdir(folder) if fn.endswith('.csv')]
-        months = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря']
+        fnames = [
+            os.path.join(folder, fn) for fn in os.listdir(folder) if fn.endswith('.csv')
+        ]
+        months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
         meal_names = [' Завтрак,', ' Обед,', ' Ужин,', ' Перекус/Другое,']
         for fn in fnames:
             with open(fn, 'r') as f:
@@ -85,7 +85,9 @@ class Command(BaseCommand):
                                 for i, m in enumerate(months):
                                     if m == month:
                                         month_number = i+1
-                                current_date = datetime.date(year=year, day=day, month=month_number)
+                                current_date = datetime.date(
+                                    year=year, day=day, month=month_number
+                                )
                                 print(current_date)
                                 skip_line = True
                             else:
@@ -95,9 +97,11 @@ class Command(BaseCommand):
                                         current_meal_no = i
                                         meal_line = True
                                         print('meal ', i)
-                                        #if current_meal is None:
+                                        # if current_meal is None:
                                         try:
-                                            current_meal = Meal.objects.get(person=person, date=current_date, meal_number=current_meal_no)
+                                            current_meal = Meal.objects.get(
+                                                person=person, date=current_date, meal_number=current_meal_no
+                                            )
                                         except Meal.DoesNotExist:
                                             current_meal = Meal()
                                             current_meal.person = person
@@ -113,8 +117,8 @@ class Command(BaseCommand):
                                         pr = Product.objects.get(name=p[0])
                                     except Product.DoesNotExist:
                                         pr = Product()
-                                        #Кал ( ккал),Жир( г),Н/жир( г),Углев( г),Клетч( г),Сахар( г),Белк( г),Натри( мг),Холес( мг),Калий( мг)
-                                        #REWRITE
+                                        # Кал ( ккал),Жир( г),Н/жир( г),Углев( г),Клетч( г),Сахар( г),Белк( г),Натри( мг),Холес( мг),Калий( мг)
+                                        # REWRITE
                                         pr.name = p[0]
                                         if p[1] is not None:
                                             pr.kkal = round(p[1]/wk, 1)

@@ -1,3 +1,12 @@
 {
-    "editor.fontSize": 18
+    "editor.fontSize": 18,
+    "python.pythonPath": "d:\\_PY\\env\\Scripts\\python.exe",
+    "python.venvFolders": [
+        "D:\\_PY\\env"
+    ],
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": false,
+    "python.linting.banditEnabled": false,
+    "python.linting.mypyEnabled": false
 }

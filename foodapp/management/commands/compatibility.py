@@ -1,16 +1,12 @@
 
 """step3"""
 
-import datetime
-import os
 from django.core.management.base import BaseCommand
-from foodapp.models import Person, Report, Meal, Intake, Product, ProductPair, ProductToPerson
-from operator import attrgetter
+from foodapp.models import Person, Meal, ProductPair, ProductToPerson
 
 
 class Command(BaseCommand):
     """A Django command."""
-
 
     def handle(self, *args, **options):
         """A Django command body."""
@@ -24,11 +20,10 @@ class Command(BaseCommand):
             pairs = []
             for n in range(0, len(products)-1):
                 for nn in range(n+1, len(products)):
-                    if n!=nn:
+                    if n != nn:
                         pairs.append([products[n], products[nn]])
             print(pairs)
             print(len(products), len(pairs))
-
 
             # REWRITE!!!!!!!!
             for p in pairs:
@@ -39,12 +34,17 @@ class Command(BaseCommand):
                     pp.product1 = p[0]
                     pp.product2 = p[1]
                     pp.count = 1
-                    p2p = ProductToPerson.objects.get(person=person, product=p[0])
+                    p2p = ProductToPerson.objects.get(
+                        person=person, product=p[0]
+                    )
                     pp.ratio = round(pp.count/p2p.intakes_count*100)
                     pp.save()
                 else:
-                    pp.count+=1
-                    p2p = ProductToPerson.objects.get(person=person, product=p[0])
+                    pp.count += 1
+                    p2p = ProductToPerson.objects.get(
+                        person=person,
+                        product=p[0]
+                    )
                     pp.ratio = round(pp.count/p2p.intakes_count*100)
                     pp.save()
 
@@ -57,12 +57,17 @@ class Command(BaseCommand):
                     pp.product1 = p[0]
                     pp.product2 = p[1]
                     pp.count = 1
-                    p2p = ProductToPerson.objects.get(person=person, product=p[0])
+                    p2p = ProductToPerson.objects.get(
+                        person=person,
+                        product=p[0]
+                    )
                     pp.ratio = round(pp.count/p2p.intakes_count*100)
                     pp.save()
                 else:
-                    pp.count+=1
-                    p2p = ProductToPerson.objects.get(person=person, product=p[0])
+                    pp.count += 1
+                    p2p = ProductToPerson.objects.get(
+                        person=person,
+                        product=p[0]
+                    )
                     pp.ratio = round(pp.count/p2p.intakes_count*100)
                     pp.save()
-
