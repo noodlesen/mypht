@@ -62,7 +62,7 @@ class Command(BaseCommand):
         months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
         meal_names = [' Завтрак,', ' Обед,', ' Ужин,', ' Перекус/Другое,']
         for fn in fnames:
-            with open(fn, 'r') as f:
+            with open(fn, 'r', encoding='utf-8') as f:
                 lines = f.read().split('\n')
                 skip = True
                 current_date = None
