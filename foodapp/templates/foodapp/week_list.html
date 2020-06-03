@@ -2,10 +2,28 @@
 
 {% block main %}
 <h1>Hello, world!</h1>
+
 {% for r in res %}
     <h2>{{r.name}}</h2>
+    <table class="table table-sm">
+    <thead>
+        <tr>
+        <th scope="col">Продукт</th>
+        <th scope="col">Вес</th>
+        </tr>
+    </thead>
+    <tbody>
     {% for i in r.intakes %}
-    <p>{{i.product.name}} - {{i.weight}}г</p>
+    <tr>
+      <td>{{i.product.name}}</td>
+      <td>{{i.weight}}г</td>
+    </tr>
     {% endfor %}
+  </tbody>
+</table>
 {% endfor %}
 {% endblock main %}
+
+
+
+

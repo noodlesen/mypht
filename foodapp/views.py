@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from foodapp.models import Person, Meal
 from datetime import datetime, timedelta
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from .models import Product
 # Create your views here.
 def week_list(request):
     person = Person.objects.get(name='klapshov')
@@ -19,3 +22,11 @@ def week_list(request):
 
     print('monday', monday)
     return render(request, 'foodapp/week_list.html', {"res": res})
+
+def search(request):
+    return render(request, 'foodapp/search.html', {})
+
+#@require_POST
+def ac(request):
+    names = [obj.name for obj in Product.objects.all()]
+    return JsonResponse(names, safe=False)
