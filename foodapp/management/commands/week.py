@@ -21,6 +21,7 @@ class Command(BaseCommand):
         monday = today - timedelta(days=dow)
         from_date = monday
         meals = Meal.objects.filter(date__gte=from_date)
+        print(len(meals))
         for m in meals:
             print(m)
             print('...')
